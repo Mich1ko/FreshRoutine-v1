@@ -29,6 +29,20 @@ function TodoPanel() {
   const [tasks, setTasks] = useState(initialTasks)
   const [newTaskTitle, setNewTaskTitle] = useState('')
 
+  const handleToggleTask = (taskId) => {
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task,
+      ),
+    )
+  }
+
+  const handleDeleteTask = (taskId) => {
+    setTasks((currentTasks) =>
+      currentTasks.filter((task) => task.id !== taskId),
+    )
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const trimmedTitle = newTaskTitle.trim()
@@ -74,8 +88,42 @@ function TodoPanel() {
 
       <ul className="space-y-2">
         {tasks.map((task) => (
-          <li key={task.id} className="rounded-lg border border-slate-200/30 bg-white/70 px-3 py-2 text-slate-900">
-            {task.title}
+          <li
+            key={task.id}
+            className="flex items-center justify-between gap-3 rounded-lg border border-slate-200/30 bg-white/70 px-3 py-2 text-slate-900"
+          >
+            <button
+              type="button"
+              onClick={() => handleToggleTask(task.id)}
+              className="flex min-w-0 flex-1 items-center gap-2 text-left"
+              aria-pressed={task.completed}
+            >
+              <span
+                className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
+                  task.completed
+                    ? 'border-blue-600 bg-blue-600 text-white'
+                    : 'border-slate-400 bg-white'
+                }`}
+              >
+                {task.completed ? '✓' : ''}
+              </span>
+              <span
+                className={
+                  task.completed
+                    ? 'truncate text-slate-500 line-through'
+                    : 'truncate text-slate-900'
+                }
+              >
+                {task.title}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDeleteTask(task.id)}
+              className="rounded-md border border-red-200 bg-red-50 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-red-700 transition hover:bg-red-100"
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
