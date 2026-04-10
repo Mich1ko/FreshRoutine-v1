@@ -12,7 +12,7 @@ function App() {
         </div>
         <div className="text-sm text-white/70">April 5, 2026</div>
       </header>
-      <div className="grid flex-1 min-h-0 gap-4 grid-cols-[260px_1fr_300px]">
+      <div className="grid flex-1 min-h-0 gap-4 grid-cols-[350px_1fr_380px]">
         <TodoPanel />
         <CalendarPanel />
         <PomodoroPanel />

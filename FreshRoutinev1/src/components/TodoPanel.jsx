@@ -53,7 +53,8 @@ function TodoPanel() {
       eyebrow="Todo List"
       title="Today's Priorities"
       description="Track the most important tasks for this session."
-      accentClassName="text-blue-300"
+      variant="light"
+      accentClassName="text-blue-700"
     >
       <form className="flex gap-2" onSubmit={handleSubmit}>
         <input
@@ -61,11 +62,11 @@ function TodoPanel() {
           value={newTaskTitle}
           onChange={(event) => setNewTaskTitle(event.target.value)}
           placeholder="Add a task..."
-          className="flex-1 rounded-lg border border-white/10 bg-black/25 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-purple-300 focus:outline-none"
+          className="flex-1 rounded-lg border border-slate-200/30 bg-white/70 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-blue-300 focus:outline-none"
         />
         <button
           type="submit"
-          className="rounded-lg border border-purple-300/40 bg-purple-300/20 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-purple-100 transition hover:bg-purple-300/30"
+          className="rounded-lg border border-blue-600/20 bg-blue-600 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-blue-700"
         >
           Add
         </button>
@@ -73,7 +74,7 @@ function TodoPanel() {
 
       <ul className="space-y-2">
         {tasks.map((task) => (
-          <li key={task.id} className="rounded-lg border border-white/10 bg-black/20 px-3 py-2">
+          <li key={task.id} className="rounded-lg border border-slate-200/30 bg-white/70 px-3 py-2 text-slate-900">
             {task.title}
           </li>
         ))}
