@@ -122,7 +122,7 @@ function TodoPanel() {
               onClick={() => handleDeleteTask(task.id)}
               className="rounded-md border border-red-200 bg-red-50 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-red-700 transition hover:bg-red-100"
             >
-              Delete
+              X
             </button>
           </li>
         ))}
