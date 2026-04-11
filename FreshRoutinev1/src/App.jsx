@@ -6,7 +6,7 @@ import PomodoroPanel from './components/PomodoroPanel'
 function App() {
   return (
     <div className="min-h-screen bg-[#0f0f13] p-4 flex flex-col gap-4">
-      <header className="h-14 rounded-2xl border-b border-white/10 bg-[#141420] px-4 flex items-center justify-between">
+      <header className="h-14 rounded-2xl border-b border-white/10 bg-amber-50 px-4 flex items-center justify-between">
         <div className="font-semibold tracking-wide bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent">
           FreshRoutine
         </div>

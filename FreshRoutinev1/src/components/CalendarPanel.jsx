@@ -1,11 +1,17 @@
+import Card from './Card'
+
 function CalendarPanel() {
-	return (
-		<div className="h-full rounded-2xl border border-white/10
-			bg-white/80 backdrop-blur-md p-5">
-			<h2 className="text-sm font-semibold tracking-widest
-				text-green-200 uppercase mb-4">Calendar</h2>
-		</div>
-	)
+  return (
+    <Card
+      eyebrow="Calendar"
+      title="Calendar"
+      description="Upcoming events and schedule overview."
+      variant="light"
+      accentClassName="text-green-700"
+    >
+      <p className="text-sm text-slate-800">No events scheduled for today.</p>
+    </Card>
+  )
 }
 
 export default CalendarPanel

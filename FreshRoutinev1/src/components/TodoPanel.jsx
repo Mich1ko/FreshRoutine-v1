@@ -76,7 +76,7 @@ function TodoPanel() {
           value={newTaskTitle}
           onChange={(event) => setNewTaskTitle(event.target.value)}
           placeholder="Add a task..."
-          className="flex-1 rounded-lg border border-slate-200/30 bg-white/70 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-blue-300 focus:outline-none"
+          className="flex-1 rounded-lg border border-slate-200/30 bg-white/30 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-blue-300 focus:outline-none"
         />
         <button
           type="submit"
@@ -90,7 +90,7 @@ function TodoPanel() {
         {tasks.map((task) => (
           <li
             key={task.id}
-            className="flex items-center justify-between gap-3 rounded-lg border border-slate-200/30 bg-white/70 px-3 py-2 text-slate-900"
+            className="flex items-center justify-between gap-3 rounded-lg border border-slate-200/30 bg-white/30 px-3 py-2 text-slate-900"
           >
             <button
               type="button"

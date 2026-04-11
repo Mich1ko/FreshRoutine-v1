@@ -11,7 +11,8 @@ function Card({
   const isLight = variant === 'light'
 
   const accentDefault = isLight ? 'text-violet-700' : 'text-violet-300'
-  const bg = bgClass ?? (isLight ? 'bg-white/60' : 'bg-white/5')
+  // Slightly more translucent light background for a subtle glass effect
+  const bg = bgClass ?? (isLight ? 'bg-white/40' : 'bg-white/5')
   const border = isLight ? 'border-slate-200/30' : 'border-white/10'
 
   const titleClass = isLight

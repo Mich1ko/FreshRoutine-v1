@@ -9,7 +9,7 @@ function PomodoroPanel() {
       variant="light"
       accentClassName="text-amber-700"
     >
-      <div className="rounded-lg border border-slate-200/30 bg-white/70 px-3 py-2">
+      <div className="rounded-lg border border-slate-200/30 bg-white/30 px-3 py-2">
         <p className="text-xs uppercase tracking-[0.16em] text-slate-700">Current Session</p>
         <p className="mt-1 text-2xl font-semibold text-slate-900">25:00</p>
       </div>
