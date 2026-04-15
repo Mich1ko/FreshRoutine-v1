@@ -90,7 +90,7 @@ function TodoPanel() {
         {tasks.map((task) => (
           <li
             key={task.id}
-            className="flex items-center justify-between gap-3 rounded-lg border border-slate-200/30 bg-white/30 px-3 py-2 text-slate-900"
+            className="flex items-center justify-between gap-3 rounded-lg border border-slate-200/30 bg-gray-300 px-3 py-2 text-slate-900"
           >
             <button
               type="button"

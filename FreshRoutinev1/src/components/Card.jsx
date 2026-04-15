@@ -13,7 +13,7 @@ function Card({
   const accentDefault = isLight ? 'text-violet-700' : 'text-violet-300'
   // Slightly more translucent light background for a subtle glass effect
   const bg = bgClass ?? (isLight ? 'bg-white/40' : 'bg-white/5')
-  const border = isLight ? 'border-slate-200/30' : 'border-white/10'
+  
 
   const titleClass = isLight
     ? 'text-xl font-semibold text-slate-900'
@@ -22,8 +22,8 @@ function Card({
   const childrenClass = isLight ? 'space-y-3 text-sm text-slate-800' : 'space-y-3 text-sm text-white/85'
 
   const cardClassName = [
-    'h-full rounded-2xl',
-    border,
+    'h-full rounded-2xl border-4',
+    ' border-slate-900',
     bg,
     'p-5 backdrop-blur-md',
     className,
@@ -41,6 +41,7 @@ function Card({
             {eyebrow}
           </p>
         ) : null}
+      
         {title ? <h2 className={titleClass}>{title}</h2> : null}
         {description ? <p className={descClass}>{description}</p> : null}
       </header>
