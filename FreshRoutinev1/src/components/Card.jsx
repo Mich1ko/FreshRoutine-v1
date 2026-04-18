@@ -19,7 +19,10 @@ function Card({
     ? 'text-xl font-semibold text-slate-900'
     : 'text-xl font-semibold text-white'
   const descClass = isLight ? 'text-sm text-slate-700' : 'text-sm text-white/65'
-  const childrenClass = isLight ? 'space-y-3 text-sm text-slate-800' : 'space-y-3 text-sm text-white/85'
+  const childrenClass = [
+    isLight ? 'text-slate-800' : 'text-white/85',
+    'text-sm space-y-3 flex-1 min-h-0 flex flex-col'
+  ].join(' ')
 
   const cardClassName = [
     'h-full rounded-2xl border-4',

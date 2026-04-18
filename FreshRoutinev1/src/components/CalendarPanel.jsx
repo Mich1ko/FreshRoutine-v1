@@ -16,12 +16,12 @@ function isSameDay(a, b) {
   )
 }
 
-function CalendarPanel() {
+function CalendarPanel({ selectedDate, onSelectDate}) {
   const today = useMemo(() => new Date(), [])
   const [viewMonth, setViewMonth] = useState(
     () => new Date(today.getFullYear(), today.getMonth(), 1)
   )
-  const [selectedDate, setSelectedDate] = useState(null)
+  
 
   const year = viewMonth.getFullYear()
   const month = viewMonth.getMonth()
@@ -105,7 +105,7 @@ function CalendarPanel() {
             <button
               key={`${date.toISOString()}-${idx}`}
               type="button"
-              onClick={() => setSelectedDate(date)}
+              onClick={() => onSelectDate(date)}
               className={[
                 'rounded py-1 text-center text-xs transition-colors',
                 inCurrentMonth ? 'text-slate-800' : 'text-slate-300',
