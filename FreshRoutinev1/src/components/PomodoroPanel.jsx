@@ -1,5 +1,7 @@
 import Card from './Card'
 
+// PomodoroPanel is a purely presentational (or "stateless") component. 
+// It currently has no `useState` or `useEffect`, focusing fully on UI structure.
 function PomodoroPanel() {
   return (
     <Card

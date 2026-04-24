@@ -16,12 +16,16 @@ function isSameDay(a, b) {
   )
 }
 
-function CalendarPanel({ selectedDate, onSelectDate}) {
+function CalendarPanel({ selectedDate, onSelectDate }) {
+  // useMemo with an empty dependency array `[]` ensures `today` is only initialized once 
+  // and never recalculated across re-renders, preventing time shifts.
   const today = useMemo(() => new Date(), [])
+
+  // useState initializes `viewMonth` based on our `today` memoized value.
   const [viewMonth, setViewMonth] = useState(
     () => new Date(today.getFullYear(), today.getMonth(), 1)
   )
-  
+
 
   const year = viewMonth.getFullYear()
   const month = viewMonth.getMonth()
@@ -29,6 +33,8 @@ function CalendarPanel({ selectedDate, onSelectDate}) {
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const daysInPrevMonth = new Date(year, month, 0).getDate()
 
+  // We use standard imperative JavaScript to build our data array before 
+  // React's declarative JSX rendering loop below maps over it.
   const cells = []
   for (let i = 0; i < 42; i += 1) {
     const dayNum = i - firstDayColumn + 1
@@ -102,6 +108,8 @@ function CalendarPanel({ selectedDate, onSelectDate}) {
           const isSelected = isSameDay(date, selectedDate)
 
           return (
+            // We generate a highly unique string `key` prop using string interpolation 
+            // so React can identify grid re-shuffling effectively.
             <button
               key={`${date.toISOString()}-${idx}`}
               type="button"
@@ -119,6 +127,7 @@ function CalendarPanel({ selectedDate, onSelectDate}) {
         })}
       </div>
 
+      {/* A common pattern for Conditional Rendering in React. If `selectedDate` is truthy, we render the paragraph; otherwise, we return `null` and render nothing. */}
       {selectedDate ? (
         <p className="mt-3 text-center text-xs text-slate-500">
           Selected: {selectedDate.toLocaleDateString()}

@@ -32,6 +32,8 @@ const formatTimeRange = (start, end) => {
 }
 
 function DayAgendaCard({ date, tasks = [], onAddEvent }) {
+    // We normalize the start and end times to ensure they are valid Date objects.
+    // Finally, we sort them chronologically so they appear in sequential order throughout the day.
     const normalizedTasks = tasks
         .map((task) => ({
             ...task,
@@ -50,6 +52,8 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
             className="flex flex-col min-h-0"
         >
             <div className="flex-1 overflow-y-auto space-y-1 pr-2">
+                {/* Dynamically generate hour blocks. For each hour slot, we filter the normalized 
+                    tasks to see if any fall within that specific start hour. */}
                 {hourSlots.map((hour) => {
                     const slotTasks = normalizedTasks.filter((task) => task.start.getHours() === hour)
 
@@ -58,6 +62,7 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                             <p className="pt-1 text-sm text-slate-400">{formatHourLabel(hour)}</p>
                             <div className="space-y-1 border-t border-slate-200 pt-1">
                                 {slotTasks.length ? (
+                                    /* If there are tasks in this hour slot, render them inside the grid. Conditional rendering with the ternary operator (?) is common in React. */
                                     slotTasks.map((task) => (
                                         <div
                                             key={task.id}
@@ -81,6 +86,8 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
 
             <button
                 type="button"
+                // `onAddEvent` is passed down as a prop from a parent component.
+                // Clicking this calls the parent's handler, illustrating standard "data down, actions up" flow in React.
                 onClick={onAddEvent}
                 className="mt-3 rounded-xl border border-slate-200 bg-white/60 py-3 text-sm font-semibold text-slate-400 transition hover:border-slate-300 hover:text-slate-600"
             >

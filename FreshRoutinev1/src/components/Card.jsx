@@ -1,3 +1,5 @@
+/* Object destructuring is used here to extract properties from the `props` object immediately.
+   We can also set default values directly, like `variant = 'dark'` and `className = ''`. */
 function Card({
   eyebrow,
   title,
@@ -8,6 +10,8 @@ function Card({
   variant = 'dark', // 'dark' (default) or 'light'
   bgClass, // optional override for background
 }) {
+  // Derived State: We compute `isLight` and subsequent class names directly during render.
+  // This avoids unnecessarily adding `useState` and `useEffect`.
   const isLight = variant === 'light'
 
   const accentDefault = isLight ? 'text-violet-700' : 'text-violet-300'
@@ -49,6 +53,9 @@ function Card({
         {description ? <p className={descClass}>{description}</p> : null}
       </header>
 
+      {/* `children` is a special prop representing elements nested inside <Card>...</Card> 
+          when this component is used in parent components (like TodoPanel or DayAgendaCard).
+          This enables strong layout abstraction and composition. */}
       <div className={childrenClass}>{children}</div>
     </section>
   )

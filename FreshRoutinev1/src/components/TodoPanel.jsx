@@ -26,24 +26,35 @@ const initialTasks = [
 ]
 
 function TodoPanel() {
+  // The `useState` hook allows us to add state to this functional component.
+  // `tasks` holds the current state array, and `setTasks` is the function used to update it.
   const [tasks, setTasks] = useState(initialTasks)
+  
+  // Maintains the current value of the input field for adding a new task.
   const [newTaskTitle, setNewTaskTitle] = useState('')
 
   const handleToggleTask = (taskId) => {
+    // When updating state based on the previous state, it's best practice to pass an updater function
+    // to `setTasks` to ensure we are working with the most current state value, avoiding race conditions.
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
+        // Using the spread operator (`...task`) copies the task object to maintain immutability,
+        // which React requires to detect changes and trigger a re-render.
         task.id === taskId ? { ...task, completed: !task.completed } : task,
       ),
     )
   }
 
   const handleDeleteTask = (taskId) => {
+    // The `filter` method naturally creates a new array, preserving state immutability.
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.id !== taskId),
     )
   }
 
   const handleSubmit = (event) => {
+    // `event.preventDefault()` stops the browser's default form submission behavior,
+    // which would otherwise cause the page to reload and lose local component state.
     event.preventDefault()
     const trimmedTitle = newTaskTitle.trim()
 
@@ -87,6 +98,9 @@ function TodoPanel() {
       </form>
 
       <ul className="space-y-2">
+        {/* We use `.map()` to render a dynamically sized list of task items.
+            React requires a unique `key` prop for each item in a list so it can efficiently
+            track which elements have changed, been added, or been removed. */}
         {tasks.map((task) => (
           <li
             key={task.id}

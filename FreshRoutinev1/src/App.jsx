@@ -7,8 +7,12 @@ import PomodoroPanel from './components/PomodoroPanel'
 import DayAgendaCard from './components/DayAgendaCard'
 
 function App() {
+  // `useState` initializes `selectedDate` to the current date and time upon component mount.
+  // Passing a callback `() => new Date()` ensures that `new Date()` is only evaluated once during the initial render layer, improving performance.
   const [selectedDate, setSelectedDate] = useState(() => new Date())
 
+  // `useMemo` caches the `dayTasks` array so it is only recalculated when `selectedDate` changes.
+  // This prevents unnecessary re-creations (and potentially re-renders of child components) on every App render.
   const dayTasks = useMemo(() => {
     const y = selectedDate.getFullYear()
     const m = selectedDate.getMonth()
@@ -29,6 +33,8 @@ function App() {
         <TodoPanel />
 
         <div className="grid min-h-0 gap-4 grid-rows-[auto_1fr]">
+          {/* CalendarPanel and DayAgendaCard share the `selectedDate` state. 
+              This is called "lifting state up", ensuring sibling components stay perfectly in sync. */}
           <CalendarPanel selectedDate={selectedDate} onSelectDate={setSelectedDate} />
           <DayAgendaCard date={selectedDate} tasks={dayTasks} />
         </div>
