@@ -76,7 +76,7 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="px-3 py-2 text-slate-300">-</div>
+                                    <div className="px-3 py-2"></div>
                                 )}
                             </div>
                         </div>

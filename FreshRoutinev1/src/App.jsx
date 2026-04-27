@@ -1,29 +1,49 @@
 import './App.css'
-import { useMemo, useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import TodoPanel from './components/TodoPanel'
 import CalendarPanel from './components/CalendarPanel'
 import PomodoroPanel from './components/PomodoroPanel'
 import DayAgendaCard from './components/DayAgendaCard'
+import AddEventModal from './components/AddEventModal'
 
 function App() {
-  // `useState` initializes `selectedDate` to the current date and time upon component mount.
-  // Passing a callback `() => new Date()` ensures that `new Date()` is only evaluated once during the initial render layer, improving performance.
   const [selectedDate, setSelectedDate] = useState(() => new Date())
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // `useMemo` caches the `dayTasks` array so it is only recalculated when `selectedDate` changes.
-  // This prevents unnecessary re-creations (and potentially re-renders of child components) on every App render.
-  const dayTasks = useMemo(() => {
-    const y = selectedDate.getFullYear()
-    const m = selectedDate.getMonth()
-    const d = selectedDate.getDate()
+  // 1. Upgrade to useState so we can push new events into it!
+  const [allTasks, setAllTasks] = useState(() => {
+    const saved = localStorage.getItem('freshroute-tasks')
+    if (saved) {
+      return JSON.parse(saved).map(t => ({
+        ...t,
+        start: new Date(t.start),
+        end: new Date(t.end)
+      }))
+    }
 
-    return [
-      { id: 1, title: 'Skin Care and bath', start: new Date(y, m, d, 8, 0), end: new Date(y, m, d, 8, 45), color: 'green' },
-      { id: 2, title: 'Eat breakfast', start: new Date(y, m, d, 9, 0), end: new Date(y, m, d, 9, 30), color: 'blue' },
-      { id: 3, title: 'Go to work', start: new Date(y, m, d, 10, 0), end: new Date(y, m, d, 18, 0), color: 'yellow' },
-    ]
-  }, [selectedDate])
+    // Start with a completely clean slate if nothing is saved!
+    return []
+  })
+
+  // 2. Auto-save to localStorage every time 'allTasks' changes
+  useEffect(() => {
+    localStorage.setItem('freshroute-tasks', JSON.stringify(allTasks))
+  }, [allTasks])
+
+  // 3. Filter down to ONLY the tasks for the currently clicked calendar day
+  const dayTasks = allTasks.filter((task) => {
+    return (
+      task.start.getFullYear() === selectedDate.getFullYear() &&
+      task.start.getMonth() === selectedDate.getMonth() &&
+      task.start.getDate() === selectedDate.getDate()
+    )
+  })
+
+  // 4. This is the "Elevator" function we pass to the Modal to receive the new event
+  const handleSaveNewEvent = (newTask) => {
+    setAllTasks(prevTasks => [...prevTasks, newTask])
+  }
 
   return (
     <div className="h-screen bg-[#dedede] p-2 flex flex-col gap-4">
@@ -33,14 +53,24 @@ function App() {
         <TodoPanel />
 
         <div className="grid min-h-0 gap-4 grid-rows-[auto_1fr]">
-          {/* CalendarPanel and DayAgendaCard share the `selectedDate` state. 
-              This is called "lifting state up", ensuring sibling components stay perfectly in sync. */}
           <CalendarPanel selectedDate={selectedDate} onSelectDate={setSelectedDate} />
-          <DayAgendaCard date={selectedDate} tasks={dayTasks} />
+          <DayAgendaCard
+            date={selectedDate}
+            tasks={dayTasks}
+            onAddEvent={() => setIsModalOpen(true)}
+          />
         </div>
 
         <PomodoroPanel />
       </div>
+
+      {/* 5. Render the Modal on top of everything! */}
+      <AddEventModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveNewEvent}
+        selectedDate={selectedDate}
+      />
     </div>
   )
 }
