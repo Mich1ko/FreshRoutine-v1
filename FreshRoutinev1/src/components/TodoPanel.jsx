@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Card from './Card'
 
 /**
@@ -13,13 +13,13 @@ import Card from './Card'
 const initialTasks = [
   {
     id: 'task-1',
-    title: 'Draft reusable card layout',
+    title: '',
     completed: false,
     createdAt: '2026-04-09T08:00:00.000Z',
   },
   {
     id: 'task-2',
-    title: 'Refactor all panels to use shared component',
+    title: '',
     completed: false,
     createdAt: '2026-04-09T09:00:00.000Z',
   },
@@ -28,8 +28,24 @@ const initialTasks = [
 function TodoPanel() {
   // The `useState` hook allows us to add state to this functional component.
   // `tasks` holds the current state array, and `setTasks` is the function used to update it.
-  const [tasks, setTasks] = useState(initialTasks)
-  
+  // We initialize it using a function to check `localStorage` first, falling back to `initialTasks`.
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem('todoTasks')
+    if (savedTasks) {
+      try {
+        return JSON.parse(savedTasks)
+      } catch (e) {
+        console.error('Failed to parse tasks from local storage', e)
+      }
+    }
+    return initialTasks
+  })
+
+  // Save tasks to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem('todoTasks', JSON.stringify(tasks))
+  }, [tasks])
+
   // Maintains the current value of the input field for adding a new task.
   const [newTaskTitle, setNewTaskTitle] = useState('')
 
@@ -113,11 +129,10 @@ function TodoPanel() {
               aria-pressed={task.completed}
             >
               <span
-                className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-                  task.completed
+                className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border ${task.completed
                     ? 'border-blue-600 bg-blue-600 text-white'
                     : 'border-slate-400 bg-white'
-                }`}
+                  }`}
               >
                 {task.completed ? '✓' : ''}
               </span>
