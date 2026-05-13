@@ -10,20 +10,7 @@ import Card from './Card'
  *   createdAt: string
  * }
  */
-const initialTasks = [
-  {
-    id: 'task-1',
-    title: '',
-    completed: false,
-    createdAt: '2026-04-09T08:00:00.000Z',
-  },
-  {
-    id: 'task-2',
-    title: '',
-    completed: false,
-    createdAt: '2026-04-09T09:00:00.000Z',
-  },
-]
+const initialTasks = []
 
 function TodoPanel() {
   // The `useState` hook allows us to add state to this functional component.
