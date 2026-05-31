@@ -15,11 +15,15 @@ function App() {
   const [allTasks, setAllTasks] = useState(() => {
     const saved = localStorage.getItem('freshroute-tasks')
     if (saved) {
-      return JSON.parse(saved).map(t => ({
-        ...t,
-        start: new Date(t.start),
-        end: new Date(t.end)
-      }))
+      try {
+        return JSON.parse(saved).map(t => ({
+          ...t,
+          start: new Date(t.start),
+          end: new Date(t.end)
+        }))
+      } catch (error) {
+        console.error('Failed to parse saved calendar tasks', error)
+      }
     }
 
     // Start with a completely clean slate if nothing is saved!
@@ -46,7 +50,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen bg-[#dedede] p-2 flex flex-col gap-4">
+    <div className="h-screen bg-transparent p-2 flex flex-col gap-4">
       <Navbar />
       <div className="grid flex-1 min-h-0 gap-4 grid-cols-[350px_1fr_380px]">
 

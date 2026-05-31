@@ -82,7 +82,7 @@ function TodoPanel() {
       title="Today's Priorities"
       description="Track the most important tasks for this session."
       variant="light"
-      accentClassName="text-blue-700"
+      accentClassName="text-indigo-600"
     >
       <form className="flex gap-2" onSubmit={handleSubmit}>
         <input
@@ -90,11 +90,11 @@ function TodoPanel() {
           value={newTaskTitle}
           onChange={(event) => setNewTaskTitle(event.target.value)}
           placeholder="Add a task..."
-          className="flex-1 rounded-lg border border-slate-200/30 bg-white/30 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:border-blue-300 focus:outline-none"
+          className="flex-1 rounded-lg border border-slate-200 bg-white/60 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none transition-colors"
         />
         <button
           type="submit"
-          className="rounded-lg border border-blue-600/20 bg-blue-600 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-blue-700"
+          className="rounded-lg border border-indigo-600/20 bg-indigo-500 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-indigo-600 shadow-sm"
         >
           Add
         </button>
@@ -107,7 +107,7 @@ function TodoPanel() {
         {tasks.map((task) => (
           <li
             key={task.id}
-            className="flex items-center justify-between gap-3 rounded-lg border border-slate-200/30 bg-gray-300 px-3 py-2 text-slate-900"
+            className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-slate-900 hover:bg-slate-100/50 transition-colors"
           >
             <button
               type="button"
@@ -116,9 +116,9 @@ function TodoPanel() {
               aria-pressed={task.completed}
             >
               <span
-                className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border ${task.completed
-                    ? 'border-blue-600 bg-blue-600 text-white'
-                    : 'border-slate-400 bg-white'
+                className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${task.completed
+                    ? 'border-indigo-500 bg-indigo-500 text-white'
+                    : 'border-slate-300 bg-white'
                   }`}
               >
                 {task.completed ? '✓' : ''}
@@ -126,8 +126,8 @@ function TodoPanel() {
               <span
                 className={
                   task.completed
-                    ? 'truncate text-slate-500 line-through'
-                    : 'truncate text-slate-900'
+                    ? 'truncate text-slate-400 line-through'
+                    : 'truncate text-slate-800'
                 }
               >
                 {task.title}
@@ -136,7 +136,7 @@ function TodoPanel() {
             <button
               type="button"
               onClick={() => handleDeleteTask(task.id)}
-              className="rounded-md border border-red-200 bg-red-50 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-red-700 transition hover:bg-red-100"
+              className="rounded-md border border-rose-200 bg-rose-50 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-rose-500 transition hover:bg-rose-100"
             >
               X
             </button>

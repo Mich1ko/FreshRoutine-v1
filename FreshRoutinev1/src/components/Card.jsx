@@ -14,23 +14,23 @@ function Card({
   // This avoids unnecessarily adding `useState` and `useEffect`.
   const isLight = variant === 'light'
 
-  const accentDefault = isLight ? 'text-violet-700' : 'text-violet-300'
-  // Slightly more translucent light background for a subtle glass effect
-  const bg = bgClass ?? (isLight ? 'bg-white/40' : 'bg-white/5')
+  const accentDefault = isLight ? 'text-indigo-600' : 'text-indigo-300'
+  // Premium white glass background for light, dark slate glass for dark
+  const bg = bgClass ?? (isLight ? 'bg-white/80' : 'bg-slate-900/50')
   
 
   const titleClass = isLight
     ? 'text-xl font-semibold text-slate-900'
     : 'text-xl font-semibold text-white'
-  const descClass = isLight ? 'text-sm text-slate-700' : 'text-sm text-white/65'
+  const descClass = isLight ? 'text-sm text-slate-500' : 'text-sm text-slate-400'
   const childrenClass = [
-    isLight ? 'text-slate-800' : 'text-white/85',
+    isLight ? 'text-slate-700' : 'text-slate-200',
     'text-sm space-y-3 flex-1 min-h-0 flex flex-col'
   ].join(' ')
 
   const cardClassName = [
-    'h-full rounded-2xl border-4',
-    ' border-slate-900',
+    'h-full rounded-2xl border transition-all duration-200 shadow-sm',
+    isLight ? 'border-slate-200/80' : 'border-slate-800/80',
     bg,
     'p-5 backdrop-blur-md',
     className,

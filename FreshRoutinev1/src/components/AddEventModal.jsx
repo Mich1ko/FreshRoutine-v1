@@ -56,50 +56,50 @@ function AddEventModal({ isOpen, onClose, onSave, selectedDate }) {
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Event Title</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Event Title</label>
             <input 
               required
               type="text" 
               value={title} 
               onChange={e => setTitle(e.target.value)}
-              className="w-full rounded-lg border-2 border-slate-200 p-3 text-slate-700 focus:border-green-500 focus:outline-none transition-colors"
+              className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors"
               placeholder="E.g., Read a book"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Start Time</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Start Time</label>
               <input 
                 required
                 type="time" 
                 value={startTime} 
                 onChange={e => setStartTime(e.target.value)}
-                className="w-full rounded-lg border-2 border-slate-200 p-3 text-slate-700 focus:border-green-500 focus:outline-none transition-colors"
+                className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">End Time</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">End Time</label>
               <input 
                 required
                 type="time" 
                 value={endTime} 
                 onChange={e => setEndTime(e.target.value)}
-                className="w-full rounded-lg border-2 border-slate-200 p-3 text-slate-700 focus:border-green-500 focus:outline-none transition-colors"
+                className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Color Marker</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Color Marker</label>
             <select 
               value={color} 
               onChange={e => setColor(e.target.value)}
-              className="w-full rounded-lg border-2 border-slate-200 p-3 text-slate-700 focus:border-green-500 focus:outline-none transition-colors font-medium"
+              className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors font-medium"
             >
-              <option value="green">Green</option>
-              <option value="blue">Blue</option>
-              <option value="yellow">Yellow</option>
+              <option value="green">Green (Emerald)</option>
+              <option value="blue">Blue (Indigo)</option>
+              <option value="yellow">Yellow (Amber)</option>
             </select>
           </div>
 
@@ -107,13 +107,13 @@ function AddEventModal({ isOpen, onClose, onSave, selectedDate }) {
             <button 
               type="button" 
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl font-bold text-slate-500 hover:bg-slate-100 transition-colors"
+              className="px-5 py-2.5 rounded-xl font-bold text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors"
             >
               Cancel
             </button>
             <button 
               type="submit"
-              className="px-5 py-2.5 rounded-xl font-bold text-white bg-slate-900 hover:bg-slate-800 transition-colors shadow-md"
+              className="px-5 py-2.5 rounded-xl font-bold text-white bg-indigo-500 hover:bg-indigo-600 transition-all duration-200 shadow-md shadow-indigo-500/20"
             >
               Save Event
             </button>

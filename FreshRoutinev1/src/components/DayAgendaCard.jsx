@@ -3,9 +3,9 @@ import Card from './Card'
 const hourSlots = Array.from({ length: 14 }, (_, i) => 8 + i)
 
 const pillStyles = {
-    green: 'border-green-500 bg-green-100 text-green-900',
-    blue: 'border-blue-500 bg-blue-100 text-blue-900',
-    yellow: 'border-yellow-500 bg-yellow-100 text-yellow-900',
+    green: 'border-emerald-500 bg-emerald-50 text-emerald-900',
+    blue: 'border-indigo-500 bg-indigo-50 text-indigo-900',
+    yellow: 'border-amber-500 bg-amber-50 text-amber-900',
 }
 
 const formatHourLabel = (hour24) => {
@@ -48,7 +48,7 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
             eyebrow="Day Agenda"
             title={formatDateTitle(date)}
             variant="light"
-            accentClassName="text-green-700"
+            accentClassName="text-emerald-500"
             className="flex flex-col min-h-0"
         >
             <div className="flex-1 overflow-y-auto space-y-1 pr-2">
@@ -59,18 +59,18 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
 
                     return (
                         <div key={hour} className="grid grid-cols-[64px_1fr] items-start py-1">
-                            <p className="pt-1 text-sm text-slate-400">{formatHourLabel(hour)}</p>
-                            <div className="space-y-1 border-t border-slate-200 pt-1">
+                            <p className="pt-1 text-sm text-slate-400 font-medium">{formatHourLabel(hour)}</p>
+                            <div className="space-y-1 border-t border-slate-100 pt-1">
                                 {slotTasks.length ? (
                                     /* If there are tasks in this hour slot, render them inside the grid. Conditional rendering with the ternary operator (?) is common in React. */
                                     slotTasks.map((task) => (
                                         <div
                                             key={task.id}
-                                            className={`flex items-center justify-between rounded-lg border-l-4 px-3 py-2 text-sm font-semibold ${pillStyles[task.color] ?? pillStyles.green
+                                            className={`flex items-center justify-between rounded-lg border-l-4 px-3 py-2 text-sm font-semibold shadow-sm ${pillStyles[task.color] ?? pillStyles.green
                                                 }`}
                                         >
                                             <span className="truncate pr-3">{task.title}</span>
-                                            <span className="text-xs font-medium text-slate-600">
+                                            <span className="text-xs font-semibold text-slate-500">
                                                 {formatTimeRange(task.start, task.end)}
                                             </span>
                                         </div>
@@ -89,7 +89,7 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                 // `onAddEvent` is passed down as a prop from a parent component.
                 // Clicking this calls the parent's handler, illustrating standard "data down, actions up" flow in React.
                 onClick={onAddEvent}
-                className="mt-3 rounded-xl border border-slate-200 bg-white/60 py-3 text-sm font-semibold text-slate-400 transition hover:border-slate-300 hover:text-slate-600"
+                className="mt-3 rounded-xl border border-slate-200 bg-white/80 py-2.5 text-sm font-semibold text-slate-500 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50/20 transition-all duration-200 shadow-sm"
             >
                 + Add event
             </button>

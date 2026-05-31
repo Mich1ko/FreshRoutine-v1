@@ -39,11 +39,11 @@ function PomodoroPanel() {
       title="Focus Cycle"
       description="Keep momentum with focused work intervals."
       variant="light"
-      accentClassName="text-amber-700"
+      accentClassName="text-amber-500"
     >
-      <div className="rounded-lg border border-black bg-white/30 px-3 py-2">
-        <p className="text-xs uppercase tracking-[0.16em] text-slate-700">Current Session</p>
-        <p className="mt-1 text-2xl font-semibold text-slate-900">{display}</p>
+      <div className="rounded-xl border border-slate-200/60 bg-white/60 px-4 py-3 shadow-sm">
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">Current Session</p>
+        <p className="mt-0.5 text-3xl font-semibold text-slate-800 tracking-tight">{display}</p>
       </div>
 
       <div className="grid grid-cols-3 gap-2">
@@ -51,7 +51,7 @@ function PomodoroPanel() {
           type="button"
           onClick={() => setIsRunning(true)}
           disabled={isRunning || secondsLeft === 0}
-          className="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+          className="rounded-lg bg-amber-500 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-amber-600 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 shadow-sm shadow-amber-500/10"
         >
           Start
         </button>
@@ -59,20 +59,20 @@ function PomodoroPanel() {
           type="button"
           onClick={() => setIsRunning(false)}
           disabled={!isRunning}
-          className="rounded-lg border border-slate-300 bg-white/70 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-700 transition hover:bg-white disabled:cursor-not-allowed disabled:text-slate-300"
+          className="rounded-lg border border-slate-200 bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600 hover:text-slate-800 hover:border-slate-300 transition hover:bg-white disabled:cursor-not-allowed disabled:text-slate-300 disabled:border-slate-100"
         >
           Pause
         </button>
         <button
           type="button"
           onClick={handleReset}
-          className="rounded-lg border border-slate-300 bg-white/70 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-700 transition hover:bg-white"
+          className="rounded-lg border border-slate-200 bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600 hover:text-slate-800 hover:border-slate-300 transition hover:bg-white"
         >
           Reset
         </button>
       </div>
 
-      <p className="text-slate-700">
+      <p className="text-slate-500 text-xs mt-1 text-center font-medium">
         {isRunning ? 'Focus timer is running.' : 'Ready for one focused sprint.'}
       </p>
     </Card>

@@ -70,7 +70,7 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
       eyebrow="Calendar"
       title={`${MONTHS[month]} ${year}`}
       variant="light"
-      accentClassName="text-green-700"
+      accentClassName="text-emerald-500"
     >
       <div className="mb-3 flex items-center justify-between">
         <button
@@ -115,10 +115,10 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
               type="button"
               onClick={() => onSelectDate(date)}
               className={[
-                'rounded py-1 text-center text-xs transition-colors',
+                'rounded-lg py-1.5 text-center text-xs transition-all duration-150',
                 inCurrentMonth ? 'text-slate-800' : 'text-slate-300',
-                isToday && !isSelected ? 'font-bold text-green-700' : '',
-                isSelected ? 'bg-green-600 font-bold text-white' : 'hover:bg-slate-100',
+                isToday && !isSelected ? 'font-bold text-emerald-500 ring-1 ring-emerald-500/20' : '',
+                isSelected ? 'bg-emerald-500 font-bold text-white shadow-md shadow-emerald-500/20' : 'hover:bg-slate-100',
               ].join(' ')}
             >
               {date.getDate()}
