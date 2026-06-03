@@ -16,10 +16,9 @@ export default function Navbar() {
               to={link.path}
               end={link.path === "/"}
               className={({ isActive }) =>
-                `px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/20"
-                    : "text-slate-300 hover:bg-slate-700 hover:text-white"
+                `px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
+                  ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/20"
+                  : "text-slate-300 hover:bg-slate-700 hover:text-white"
                 }`
               }
             >
