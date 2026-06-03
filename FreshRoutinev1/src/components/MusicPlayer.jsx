@@ -7,7 +7,7 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
     const [isShuffle, setIsShuffle] = useState(false);
     const [shuffleOrder, setShuffleOrder] = useState([]);
     const [shufflePos, setShufflePos] = useState(0);
-    const howler = useState(null)
+    const howlRef = useRef(null)
 }
 
 export default MusicPlayer
@@ -15,7 +15,7 @@ export default MusicPlayer
 // Track changes = load a new sound
 useEffect(() => {
     const sound = new Howl({
-        src: [playlist.src],
+        src: [playlist[trackIndex].src],
         html5: true,
         volume: 0.5,
     });
@@ -50,7 +50,31 @@ function buildShuffleOrder(length) {
     const arr = Array.from({ length }, (_, i) => i)
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        arr[i], arr[j] = arr[j], arr[i];
+        [arr[i], arr[j] = arr[j], arr[i]];
     }
     return arr
+}
+
+// handle Next
+function handleNext() {
+    if (isShuffle) {
+        const nextPos = (shuffleOrder + 1) % shuffleOrder.length
+        setShufflePos(nextPos);
+        setTrackIndex(shuffleOrder[nextPos]);
+    } else {
+        setTrackIndex(prev => (prev + 1) % playlist.length);
+
+    }
+}
+
+// handle Prev
+function handlePrev() {
+    if (isShuffle) {
+        const prevPos = (shuffleOrder - 1 + shuffleOrder.length) % shuffleOrder.length
+        setShufflePos(prevPos);
+        setTrackIndex(shuffleOrder[prevPos]);
+    } else {
+        setTrackIndex(prev => (prev - 1 + playlist.length) % playlist.length);
+
+    }
 }
