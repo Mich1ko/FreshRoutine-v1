@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import Card from './Card'
+import MusicPlayer from './MusicPlayer'
 
 const WORK_SECONDS = 25 * 60
 
 function PomodoroPanel() {
   const [secondsLeft, setSecondsLeft] = useState(WORK_SECONDS)
   const [isRunning, setIsRunning] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if (!isRunning) return undefined
@@ -14,6 +16,7 @@ function PomodoroPanel() {
       setSecondsLeft((currentSeconds) => {
         if (currentSeconds <= 1) {
           setIsRunning(false)
+          setIsPlaying(false)
           return 0
         }
 
@@ -75,6 +78,9 @@ function PomodoroPanel() {
       <p className="text-slate-500 text-xs mt-1 text-center font-medium">
         {isRunning ? 'Focus timer is running.' : 'Ready for one focused sprint.'}
       </p>
+
+      {/* Music player lives at the bottom of the Pomodoro card */}
+      <MusicPlayer isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
     </Card>
   )
 }
