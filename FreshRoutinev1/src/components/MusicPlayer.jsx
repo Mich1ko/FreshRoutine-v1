@@ -8,6 +8,9 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
     const [shuffleOrder, setShuffleOrder] = useState([]);
     const [shufflePos, setShufflePos] = useState(0);
     const howlRef = useRef(null)
+    const [volume, setVolume] = useRef(0.5)
+    const [muted, setIsMuted] = useRef(false)
+    const [prevVolume, setPrevVolume] = useRef(0.5)
 
     const track = playlist[trackIndex];
 
@@ -44,6 +47,19 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
         }
     }, [isPlaying]);
 
+    //telling howler the new volume
+    //When volume OR isMuted changes → tell Howler the new volume:
+    useEffect(() => {
+        if (!howlRef.current) return
+        howlRef.volume.value = muted ? 0 : volume
+    }, [volume, muted]);
+
+    const current = howlRef.current.volume()
+    howlRef.current.volume(0.75)
+    howlRef.current.volume(0)
+    howlRef.current.volume(1)
+    howlRef.current.volume(slidervolume / 100)
+
     // shuffle logic
     function buildShuffleOrder(length) {
         const arr = Array.from({ length }, (_, i) => i)
@@ -73,6 +89,19 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
             setTrackIndex(shuffleOrder[prevPos]);
         } else {
             setTrackIndex(prev => (prev - 1 + playlist.length) % playlist.length);
+        }
+
+
+    }
+
+    function muteToggle() {
+        if (isMuted) {
+
+            setIsMuted(false)
+            setVolume(prevVolume)
+        } else {
+            setPrevVolume(setVolume)
+            setIsMuted(true)
         }
     }
 
@@ -120,8 +149,8 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
                         }
                     }}
                     className={`rounded-lg p-2 transition-all duration-150 ${isShuffle
-                            ? 'text-amber-500 bg-amber-50 shadow-sm'
-                            : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+                        ? 'text-amber-500 bg-amber-50 shadow-sm'
+                        : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
                         }`}
                 >
                     {/* Shuffle icon */}
