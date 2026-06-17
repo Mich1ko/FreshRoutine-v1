@@ -49,6 +49,7 @@ function App() {
     setAllTasks(prevTasks => [...prevTasks, newTask])
   }
 
+
   return (
     <div className="h-screen bg-transparent p-2 flex flex-col gap-4">
       <Navbar />
@@ -75,6 +76,7 @@ function App() {
         onSave={handleSaveNewEvent}
         selectedDate={selectedDate}
       />
+
     </div>
   )
 }

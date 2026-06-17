@@ -1,4 +1,5 @@
 import Card from './Card'
+import CalendarPng from '../assets/calendar.png'
 
 const hourSlots = Array.from({ length: 14 }, (_, i) => 8 + i)
 
@@ -73,7 +74,9 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                                             <span className="text-xs font-semibold text-slate-500">
                                                 {formatTimeRange(task.start, task.end)}
                                             </span>
+
                                         </div>
+
                                     ))
                                 ) : (
                                     <div className="px-3 py-2"></div>
@@ -93,6 +96,12 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
             >
                 + Add event
             </button>
+            <img
+                src={CalendarPng}
+                alt=""
+                className="absolute -top-12 right-8 w-48 h-48opacity-[0.7] pointer-events-none select-none z-0 rotate-0"
+            />
+
         </Card>
     )
 }

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import Card from './Card'
+import todoSvg from '../assets/morningroutine.svg'
+import todoSvg2 from '../assets/task.png'
+
 
 /**
  * Task data structure:
@@ -83,7 +86,17 @@ function TodoPanel() {
       description="Track the most important tasks for this session."
       variant="light"
       accentClassName="text-indigo-600"
+      className='relative overflow-hidden'
     >
+      {/* Watermark SVG Graphic */}
+      <img
+        src={todoSvg}
+        alt=""
+        className="absolute -bottom-6 -right-15 w-45 h-320 opacity-[0.3] pointer-events-none select-none z-0 rotate-10"
+      />
+
+
+
       <form className="flex gap-2" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -99,6 +112,14 @@ function TodoPanel() {
           Add
         </button>
       </form>
+
+      <img
+        src={todoSvg2}
+        alt=""
+        className="absolute w-48 h-48 right-20 bottom-60 opacity-[0.6]"
+      />
+
+
 
       <ul className="space-y-2">
         {/* We use `.map()` to render a dynamically sized list of task items.
@@ -117,8 +138,8 @@ function TodoPanel() {
             >
               <span
                 className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${task.completed
-                    ? 'border-indigo-500 bg-indigo-500 text-white'
-                    : 'border-slate-300 bg-white'
+                  ? 'border-indigo-500 bg-indigo-500 text-white'
+                  : 'border-slate-300 bg-white'
                   }`}
               >
                 {task.completed ? '✓' : ''}

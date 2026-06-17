@@ -5,7 +5,7 @@ function Card({
   title,
   description,
   accentClassName,
-  className = '',
+  className = 'relative overflow-hidden',
   children,
   variant = 'dark', // 'dark' (default) or 'light'
   bgClass, // optional override for background
@@ -17,7 +17,7 @@ function Card({
   const accentDefault = isLight ? 'text-indigo-600' : 'text-indigo-300'
   // Premium white glass background for light, dark slate glass for dark
   const bg = bgClass ?? (isLight ? 'bg-white/80' : 'bg-slate-900/50')
-  
+
 
   const titleClass = isLight
     ? 'text-xl font-semibold text-slate-900'
@@ -48,7 +48,7 @@ function Card({
             {eyebrow}
           </p>
         ) : null}
-      
+
         {title ? <h2 className={titleClass}>{title}</h2> : null}
         {description ? <p className={descClass}>{description}</p> : null}
       </header>
