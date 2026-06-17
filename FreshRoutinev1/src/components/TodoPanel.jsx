@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Card from './Card'
 import todoSvg from '../assets/morningroutine.svg'
 import todoSvg2 from '../assets/task.png'
+import fadeAbstract from '../assets/abstractfadeblue.png'
 
 
 /**
@@ -117,6 +118,12 @@ function TodoPanel() {
         src={todoSvg2}
         alt=""
         className="absolute w-48 h-48 right-20 bottom-60 opacity-[0.6]"
+      />
+
+      <img
+        src={fadeAbstract}
+        alt=""
+        className="absolute -bottom-20 -left-15 w-48 h-48 opacity-[0.6]"
       />
 
 
