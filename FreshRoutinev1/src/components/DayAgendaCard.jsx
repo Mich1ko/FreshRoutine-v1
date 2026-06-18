@@ -60,8 +60,8 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
 
                     return (
                         <div key={hour} className="grid grid-cols-[64px_1fr] items-start py-1">
-                            <p className="pt-1 text-sm text-slate-400 font-medium">{formatHourLabel(hour)}</p>
-                            <div className="space-y-1 border-t border-slate-100 pt-1">
+                            <p className="pt-1 text-sm text-slate-400 font-medium dark:text-slate-500">{formatHourLabel(hour)}</p>
+                            <div className="space-y-1 border-t border-slate-100 pt-1 dark:border-slate-800">
                                 {slotTasks.length ? (
                                     /* If there are tasks in this hour slot, render them inside the grid. Conditional rendering with the ternary operator (?) is common in React. */
                                     slotTasks.map((task) => (
@@ -71,7 +71,7 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                                                 }`}
                                         >
                                             <span className="truncate pr-3">{task.title}</span>
-                                            <span className="text-xs font-semibold text-slate-500">
+                                            <span className="text-xs font-semibold text-slate-500 dark:text-slate-600">
                                                 {formatTimeRange(task.start, task.end)}
                                             </span>
 
@@ -92,7 +92,7 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                 // `onAddEvent` is passed down as a prop from a parent component.
                 // Clicking this calls the parent's handler, illustrating standard "data down, actions up" flow in React.
                 onClick={onAddEvent}
-                className="mt-3 rounded-xl border border-slate-200 bg-white/80 py-2.5 text-sm font-semibold text-slate-500 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50/20 transition-all duration-200 shadow-sm"
+                className="mt-3 rounded-xl border border-slate-200 bg-white/80 py-2.5 text-sm font-semibold text-slate-500 shadow-sm transition-all duration-200 hover:border-indigo-200 hover:bg-indigo-50/20 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-950/40 dark:text-indigo-300 dark:hover:border-indigo-400/60 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200"
             >
                 + Add event
             </button>

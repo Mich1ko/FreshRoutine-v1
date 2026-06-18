@@ -76,18 +76,18 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
         <button
           type="button"
           onClick={goPrevMonth}
-          className="rounded px-2 py-1 text-sm text-slate-600 hover:bg-slate-100"
+          className="rounded px-2 py-1 text-sm text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
           aria-label="Previous month"
         >
           Prev
         </button>
-        <span className="text-sm font-medium text-slate-700">
+        <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
           {MONTHS[month]} {year}
         </span>
         <button
           type="button"
           onClick={goNextMonth}
-          className="rounded px-2 py-1 text-sm text-slate-600 hover:bg-slate-100"
+          className="rounded px-2 py-1 text-sm text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
           aria-label="Next month"
         >
           Next
@@ -96,7 +96,7 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
 
       <div className="mb-1 grid grid-cols-7">
         {DAYS.map((d) => (
-          <div key={d} className="py-1 text-center text-xs font-semibold text-slate-400">
+          <div key={d} className="py-1 text-center text-xs font-semibold text-slate-400 dark:text-slate-500">
             {d}
           </div>
         ))}
@@ -116,9 +116,9 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
               onClick={() => onSelectDate(date)}
               className={[
                 'rounded-lg py-1.5 text-center text-xs transition-all duration-150',
-                inCurrentMonth ? 'text-slate-800' : 'text-slate-300',
+                inCurrentMonth ? 'text-slate-800 dark:text-slate-100' : 'text-slate-300 dark:text-slate-600',
                 isToday && !isSelected ? 'font-bold text-emerald-500 ring-1 ring-emerald-500/20' : '',
-                isSelected ? 'bg-emerald-500 font-bold text-white shadow-md shadow-emerald-500/20' : 'hover:bg-slate-100',
+                isSelected ? 'bg-emerald-500 font-bold text-white shadow-md shadow-emerald-500/20' : 'hover:bg-slate-100 dark:hover:bg-slate-800',
               ].join(' ')}
             >
               {date.getDate()}
@@ -129,7 +129,7 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
 
       {/* A common pattern for Conditional Rendering in React. If `selectedDate` is truthy, we render the paragraph; otherwise, we return `null` and render nothing. */}
       {selectedDate ? (
-        <p className="mt-3 text-center text-xs text-slate-500">
+        <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
           Selected: {selectedDate.toLocaleDateString()}
         </p>
       ) : null}

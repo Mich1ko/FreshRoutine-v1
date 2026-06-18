@@ -104,7 +104,7 @@ function TodoPanel() {
           value={newTaskTitle}
           onChange={(event) => setNewTaskTitle(event.target.value)}
           placeholder="Add a task..."
-          className="flex-1 rounded-lg border border-slate-200 bg-white/60 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none transition-colors"
+          className="flex-1 rounded-lg border border-slate-200 bg-white/60 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-indigo-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100 dark:placeholder:text-slate-500"
         />
         <button
           type="submit"
@@ -135,7 +135,7 @@ function TodoPanel() {
         {tasks.map((task) => (
           <li
             key={task.id}
-            className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-slate-900 hover:bg-slate-100/50 transition-colors"
+            className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-slate-900 transition-colors hover:bg-slate-100/50 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-800/80"
           >
             <button
               type="button"
@@ -146,7 +146,7 @@ function TodoPanel() {
               <span
                 className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${task.completed
                   ? 'border-indigo-500 bg-indigo-500 text-white'
-                  : 'border-slate-300 bg-white'
+                  : 'border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-950'
                   }`}
               >
                 {task.completed ? '✓' : ''}
@@ -155,7 +155,7 @@ function TodoPanel() {
                 className={
                   task.completed
                     ? 'truncate text-slate-400 line-through'
-                    : 'truncate text-slate-800'
+                    : 'truncate text-slate-800 dark:text-slate-100'
                 }
               >
                 {task.title}
