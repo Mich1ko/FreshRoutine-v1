@@ -51,63 +51,63 @@ function AddEventModal({ isOpen, onClose, onSave, selectedDate }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
-        <h2 className="text-xl font-bold text-slate-800 mb-5">Add New Event</h2>
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl transition-colors duration-200">
+        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-5">Add New Event</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Event Title</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Event Title</label>
             <input 
               required
               type="text" 
               value={title} 
               onChange={e => setTitle(e.target.value)}
-              className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors"
+              className="w-full rounded-lg border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-slate-700 dark:text-slate-100 focus:border-indigo-500 focus:outline-none transition-colors"
               placeholder="E.g., Read a book"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Start Time</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Start Time</label>
               <input 
                 required
                 type="time" 
                 value={startTime} 
                 onChange={e => setStartTime(e.target.value)}
-                className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors"
+                className="w-full rounded-lg border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-slate-700 dark:text-slate-100 focus:border-indigo-500 focus:outline-none transition-colors"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">End Time</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">End Time</label>
               <input 
                 required
                 type="time" 
                 value={endTime} 
                 onChange={e => setEndTime(e.target.value)}
-                className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors"
+                className="w-full rounded-lg border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-slate-700 dark:text-slate-100 focus:border-indigo-500 focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Color Marker</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Color Marker</label>
             <select 
               value={color} 
               onChange={e => setColor(e.target.value)}
-              className="w-full rounded-lg border-2 border-slate-100 p-3 text-slate-700 focus:border-indigo-500 focus:outline-none transition-colors font-medium"
+              className="w-full rounded-lg border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 p-3 text-slate-700 dark:text-slate-100 focus:border-indigo-500 focus:outline-none transition-colors font-medium"
             >
-              <option value="green">Green (Emerald)</option>
-              <option value="blue">Blue (Indigo)</option>
-              <option value="yellow">Yellow (Amber)</option>
+              <option value="green" className="dark:bg-slate-900">Green (Emerald)</option>
+              <option value="blue" className="dark:bg-slate-900">Blue (Indigo)</option>
+              <option value="yellow" className="dark:bg-slate-900">Yellow (Amber)</option>
             </select>
           </div>
 
-          <div className="mt-8 flex justify-end gap-3 pt-5 border-t border-slate-100">
+          <div className="mt-8 flex justify-end gap-3 pt-5 border-t border-slate-100 dark:border-slate-850">
             <button 
               type="button" 
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl font-bold text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors"
+              className="px-5 py-2.5 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
             >
               Cancel
             </button>
