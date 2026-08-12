@@ -1,48 +1,24 @@
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import Card from './Card'
+import {
+  readFocusStats,
+  readTodoStats,
+  subscribeToAnalyticsChanges,
+} from '../utils/analytics'
 
 export default function AnalyticsPanel() {
-  // Read actual tasks from localStorage to display real stats!
-  const todoStats = useMemo(() => {
-    try {
-      const savedTasks = localStorage.getItem('todoTasks')
-      if (savedTasks) {
-        const tasks = JSON.parse(savedTasks)
-        const total = tasks.length
-        const completed = tasks.filter(t => t.completed).length
-        const rate = total > 0 ? Math.round((completed / total) * 100) : 0
-        return { total, completed, rate }
-      }
-    } catch (e) {
-      console.error('Failed to parse todo tasks for analytics', e)
-    }
-    return { total: 0, completed: 0, rate: 0 }
-  }, [])
+  const [todoStats, setTodoStats] = useState(() => readTodoStats())
+  const [focusStats, setFocusStats] = useState(() => readFocusStats())
 
-  // Read focus sessions or use high-quality defaults
-  const focusStats = useMemo(() => {
-    try {
-      const savedFocus = localStorage.getItem('freshroute-focus-stats')
-      if (savedFocus) {
-        return JSON.parse(savedFocus)
-      }
-    } catch (e) {
-      // Ignore
+  useEffect(() => {
+    const refreshStats = () => {
+      setTodoStats(readTodoStats())
+      setFocusStats(readFocusStats())
     }
-    // High-quality starter stats
-    return {
-      totalHours: 2.5,
-      completedSessions: 6,
-      weeklyData: [
-        { day: 'Mon', hours: 1.5 },
-        { day: 'Tue', hours: 2.0 },
-        { day: 'Wed', hours: 1.0 },
-        { day: 'Thu', hours: 2.5 },
-        { day: 'Fri', hours: 3.0 },
-        { day: 'Sat', hours: 0.5 },
-        { day: 'Sun', hours: 1.2 },
-      ]
-    }
+
+    refreshStats()
+
+    return subscribeToAnalyticsChanges(refreshStats)
   }, [])
 
   // Calculate circular progress path values

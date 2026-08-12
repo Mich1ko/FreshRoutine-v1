@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 import Card from './Card'
 import MusicPlayer from './MusicPlayer'
-import Abstract from '../assets/orangeabstract.png'
-import Headphones from '../assets/headphones.png'
-import MusicNote from '../assets/musicnote1.png'
-import MusicNote2 from '../assets/musicnote2.png'
+import { recordFocusSession } from '../utils/analytics'
 
 const WORK_SECONDS = 25 * 60
+const WORK_MINUTES = WORK_SECONDS / 60
 
 function PomodoroPanel() {
   const [secondsLeft, setSecondsLeft] = useState(WORK_SECONDS)
@@ -21,6 +19,7 @@ function PomodoroPanel() {
         if (currentSeconds <= 1) {
           setIsRunning(false)
           setIsPlaying(false)
+          recordFocusSession(WORK_MINUTES)
           return 0
         }
 
@@ -37,6 +36,7 @@ function PomodoroPanel() {
 
   const handleReset = () => {
     setIsRunning(false)
+    setIsPlaying(false)
     setSecondsLeft(WORK_SECONDS)
   }
 
@@ -49,36 +49,7 @@ function PomodoroPanel() {
       accentClassName="text-amber-500"
       className="relative overflow-hidden"
     >
-      {/* Watermark Graphics */}
-      <img
-        src={Abstract}
-        alt=""
-        className="absolute -top-15 -right-10 w-42 h-42 opacity-[0.5] pointer-events-none select-none z-0"
-      />
 
-      <img
-        src={Abstract}
-        alt=""
-        className="absolute top-40 -left-14 w-42 h-42 opacity-[0.3] pointer-events-none select-none z-0"
-      />
-
-      <img
-        src={Headphones}
-        alt=""
-        className="absolute bottom-5 left-10 w-42 h-42 opacity-[0.65] pointer-events-none select-none z-0"
-      />
-
-      <img
-        src={MusicNote}
-        alt=""
-        className="absolute bottom-37 left-35 w-20 h-20 opacity-[0.45] pointer-events-none select-none z-0"
-      />
-
-      <img
-        src={MusicNote2}
-        alt=""
-        className="absolute bottom-25 left-45 w-15 h-15 opacity-[0.45] pointer-events-none select-none z-0"
-      />
 
       {/* Interactive Content Layer */}
       <div className="relative z-10 flex flex-col gap-3 h-full min-h-0">

@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Card from './Card'
 import todoSvg from '../assets/morningroutine.svg'
-import todoSvg2 from '../assets/task.png'
-import fadeAbstract from '../assets/abstractfadeblue.png'
 
 
 /**
@@ -14,37 +12,24 @@ import fadeAbstract from '../assets/abstractfadeblue.png'
  *   createdAt: string
  * }
  */
-const initialTasks = []
+const formatDateTitle = (date) => {
+  if (!date) return 'Selected Day'
 
-function TodoPanel() {
-  // The `useState` hook allows us to add state to this functional component.
-  // `tasks` holds the current state array, and `setTasks` is the function used to update it.
-  // We initialize it using a function to check `localStorage` first, falling back to `initialTasks`.
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem('todoTasks')
-    if (savedTasks) {
-      try {
-        return JSON.parse(savedTasks)
-      } catch (e) {
-        console.error('Failed to parse tasks from local storage', e)
-      }
-    }
-    return initialTasks
-  })
+  return new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  }).format(date)
+}
 
-  // Save tasks to local storage whenever they change
-  useEffect(() => {
-    localStorage.setItem('todoTasks', JSON.stringify(tasks))
-  }, [tasks])
-
+function TodoPanel({ selectedDate, tasks = [], onTasksChange }) {
   // Maintains the current value of the input field for adding a new task.
   const [newTaskTitle, setNewTaskTitle] = useState('')
 
   const handleToggleTask = (taskId) => {
-    // When updating state based on the previous state, it's best practice to pass an updater function
-    // to `setTasks` to ensure we are working with the most current state value, avoiding race conditions.
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
+    // The parent owns the array for the selected date, so this component sends the next array upward.
+    onTasksChange(
+      tasks.map((task) =>
         // Using the spread operator (`...task`) copies the task object to maintain immutability,
         // which React requires to detect changes and trigger a re-render.
         task.id === taskId ? { ...task, completed: !task.completed } : task,
@@ -54,9 +39,7 @@ function TodoPanel() {
 
   const handleDeleteTask = (taskId) => {
     // The `filter` method naturally creates a new array, preserving state immutability.
-    setTasks((currentTasks) =>
-      currentTasks.filter((task) => task.id !== taskId),
-    )
+    onTasksChange(tasks.filter((task) => task.id !== taskId))
   }
 
   const handleSubmit = (event) => {
@@ -76,15 +59,15 @@ function TodoPanel() {
       createdAt: new Date().toISOString(),
     }
 
-    setTasks((currentTasks) => [nextTask, ...currentTasks])
+    onTasksChange([nextTask, ...tasks])
     setNewTaskTitle('')
   }
 
   return (
     <Card
       eyebrow="Todo List"
-      title="Today's Priorities"
-      description="Track the most important tasks for this session."
+      title={formatDateTitle(selectedDate)}
+      description="Track the most important tasks for this selected day."
       variant="light"
       accentClassName="text-indigo-600"
       className='relative overflow-hidden'
@@ -114,17 +97,6 @@ function TodoPanel() {
         </button>
       </form>
 
-      <img
-        src={todoSvg2}
-        alt=""
-        className="absolute w-48 h-48 right-20 bottom-60 opacity-[0.6]"
-      />
-
-      <img
-        src={fadeAbstract}
-        alt=""
-        className="absolute -bottom-20 -left-15 w-48 h-48 opacity-[0.6]"
-      />
 
 
 
@@ -132,7 +104,7 @@ function TodoPanel() {
         {/* We use `.map()` to render a dynamically sized list of task items.
             React requires a unique `key` prop for each item in a list so it can efficiently
             track which elements have changed, been added, or been removed. */}
-        {tasks.map((task) => (
+        {tasks.length ? tasks.map((task) => (
           <li
             key={task.id}
             className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-slate-900 transition-colors hover:bg-slate-100/50 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-800/80"
@@ -169,7 +141,11 @@ function TodoPanel() {
               X
             </button>
           </li>
-        ))}
+        )) : (
+          <li className="rounded-lg border border-dashed border-slate-200 bg-white/50 px-3 py-4 text-center text-sm text-slate-400 dark:border-slate-700 dark:bg-slate-950/30 dark:text-slate-500">
+            No tasks yet for this date.
+          </li>
+        )}
       </ul>
     </Card>
   )
