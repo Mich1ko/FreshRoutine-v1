@@ -71,6 +71,7 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
       title={`${MONTHS[month]} ${year}`}
       variant="light"
       accentClassName="text-emerald-500"
+      borderClassName="border-emerald-500/60"
     >
       <div className="mb-3 flex items-center justify-between">
         <button

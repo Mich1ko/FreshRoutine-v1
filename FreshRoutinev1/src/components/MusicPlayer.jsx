@@ -1,62 +1,29 @@
-import { useState, useRef, useEffect } from 'react'
-import { Howl } from 'howler'
-import { playlist } from '../data/playlist.js';
+import { useEffect, useRef } from 'react'
 
-function MusicPlayer({ isPlaying, setIsPlaying }) {
-    const [trackIndex, setTrackIndex] = useState(0);
-    const [isShuffle, setIsShuffle] = useState(false);
-    const [shuffleOrder, setShuffleOrder] = useState([]);
-    const [shufflePos, setShufflePos] = useState(0);
-    const howlRef = useRef(null)
-    const [volume, setVolume] = useState(0.5)
-    const [isMuted, setIsMuted] = useState(false)
-    const [prevVolume, setPrevVolume] = useState(0.5)
-    const [isVolumeOpen, setIsVolumeOpen] = useState(false)
+function MusicPlayer({ player }) {
+    const {
+        duration,
+        handleMute,
+        handleNext,
+        handlePrev,
+        isMuted,
+        isPlaying,
+        isShuffle,
+        isVolumeOpen,
+        playlistLength,
+        seekPosition,
+        seekTo,
+        setIsPlaying,
+        setIsSeeking,
+        setIsVolumeOpen,
+        setSeekPosition,
+        setVolumeFromPercent,
+        toggleShuffle,
+        track,
+        trackIndex,
+        volume,
+    } = player
     const volumeControlRef = useRef(null)
-
-    const track = playlist[trackIndex];
-
-
-
-    // Track changes = load a new sound
-    useEffect(() => {
-        const sound = new Howl({
-            src: [track.src],
-            html5: true,
-            volume: 0.5,
-            onload: () => {
-                if (isPlaying) {
-                    sound.play();
-                }
-            }
-        });
-        howlRef.current = sound;
-
-        if (isPlaying) {
-            sound.play();
-        }
-
-        return () => {
-            sound.unload();
-        };
-    }, [trackIndex])
-
-    // Playing or pause effect
-    useEffect(() => {
-        if (!howlRef.current) return
-        if (isPlaying) {
-            howlRef.current.play()
-        } else {
-            howlRef.current.pause()
-        }
-    }, [isPlaying]);
-
-    //telling howler the new volume
-    //When volume OR isMuted changes → tell Howler the new volume:
-    useEffect(() => {
-        if (!howlRef.current) return
-        howlRef.current.volume(isMuted ? 0 : volume)
-    }, [volume, isMuted]);
 
     useEffect(() => {
         if (!isVolumeOpen) return
@@ -80,51 +47,13 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
             document.removeEventListener('pointerdown', handlePointerDown)
             document.removeEventListener('keydown', handleKeyDown)
         }
-    }, [isVolumeOpen])
+    }, [isVolumeOpen, setIsVolumeOpen])
 
-    // shuffle logic
-    function buildShuffleOrder(length) {
-        const arr = Array.from({ length }, (_, i) => i)
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr
-    }
-
-    // handle Next
-    function handleNext() {
-        if (isShuffle) {
-            const nextPos = (shufflePos + 1) % shuffleOrder.length
-            setShufflePos(nextPos);
-            setTrackIndex(shuffleOrder[nextPos]);
-        } else {
-            setTrackIndex(prev => (prev + 1) % playlist.length);
-        }
-    }
-
-    // handle Prev
-    function handlePrev() {
-        if (isShuffle) {
-            const prevPos = (shufflePos - 1 + shuffleOrder.length) % shuffleOrder.length
-            setShufflePos(prevPos);
-            setTrackIndex(shuffleOrder[prevPos]);
-        } else {
-            setTrackIndex(prev => (prev - 1 + playlist.length) % playlist.length);
-        }
-
-
-    }
-
-    function handleMute() {
-        if (isMuted) {
-
-            setIsMuted(false)
-            setVolume(prevVolume)
-        } else {
-            setPrevVolume(volume)
-            setIsMuted(true)
-        }
+    function formatTime(secs) {
+        if (!secs || isNaN(secs) || secs < 0) return '0:00'
+        const mins = Math.floor(secs / 60)
+        const remainingSecs = Math.floor(secs % 60)
+        return `${mins}:${String(remainingSecs).padStart(2, '0')}`
     }
 
     const volumeIcon = isMuted || volume === 0
@@ -135,15 +64,12 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
 
     return (
         <div className="mt-auto">
-            {/* Divider */}
             <div className="border-t border-slate-200/70 mb-4 dark:border-slate-700/70" />
 
-            {/* Section label */}
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500 mb-3">
                 Music
             </p>
 
-            {/* Track info */}
             <div className="rounded-xl bg-white/60 border border-slate-200/60 px-4 py-3 shadow-sm mb-3 transition-colors duration-500 dark:border-slate-700/70 dark:bg-slate-950/50 dark:shadow-none">
                 <div className="flex justify-between items-start gap-2">
                     <div className="min-w-0 flex-1">
@@ -155,38 +81,52 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
                         </p>
                     </div>
                     <span className="text-[10px] font-medium text-slate-400 bg-slate-100 rounded-full px-2 py-0.5 tabular-nums flex-shrink-0 dark:bg-slate-800 dark:text-slate-400">
-                        {trackIndex + 1}/{playlist.length}
+                        {trackIndex + 1}/{playlistLength}
                     </span>
                 </div>
 
-                {/* Fake progress bar — decorative for now */}
-                <div className="mt-3 h-1 rounded-full bg-slate-200 overflow-hidden dark:bg-slate-800">
-                    <div
-                        className={`h-full rounded-full bg-amber-400 transition-all duration-1000 ${isPlaying ? 'w-2/5' : 'w-0'}`}
-                    />
+                <div className="mt-3">
+                    <div className="flex items-center justify-between text-[10px] tabular-nums font-medium text-slate-400 mb-1 dark:text-slate-500">
+                        <span>{formatTime(seekPosition)}</span>
+                        <span>{formatTime(duration)}</span>
+                    </div>
+                    <div className="relative flex items-center group">
+                        <input
+                            type="range"
+                            min={0}
+                            max={duration || 100}
+                            step={0.1}
+                            value={seekPosition}
+                            onMouseDown={() => setIsSeeking(true)}
+                            onTouchStart={() => setIsSeeking(true)}
+                            onChange={(event) => {
+                                setSeekPosition(Number(event.target.value))
+                            }}
+                            onMouseUp={(event) => {
+                                setIsSeeking(false)
+                                seekTo(Number(event.target.value))
+                            }}
+                            onTouchEnd={(event) => {
+                                setIsSeeking(false)
+                                seekTo(Number(event.target.value))
+                            }}
+                            aria-label="Track playback position"
+                            className="w-full h-1.5 accent-amber-500 bg-slate-200 dark:bg-slate-800 rounded-lg cursor-pointer transition-all"
+                        />
+                    </div>
                 </div>
             </div>
 
-            {/* Controls row */}
             <div className="flex items-center justify-center gap-3 mt-4">
-                {/* Shuffle toggle */}
                 <button
                     type="button"
                     title="Shuffle"
-                    onClick={() => {
-                        const next = !isShuffle
-                        setIsShuffle(next)
-                        if (next) {
-                            setShuffleOrder(buildShuffleOrder(playlist.length))
-                            setShufflePos(0)
-                        }
-                    }}
+                    onClick={toggleShuffle}
                     className={`rounded-lg p-2 transition-all duration-150 flex-shrink-0 ${isShuffle
                         ? 'text-amber-500 bg-amber-50 shadow-sm dark:bg-amber-500/10 dark:text-amber-400'
                         : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200'
                         }`}
                 >
-                    {/* Shuffle icon */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="16 3 21 3 21 8" />
                         <line x1="4" y1="20" x2="21" y2="3" />
@@ -195,7 +135,6 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
                     </svg>
                 </button>
 
-                {/* Previous */}
                 <button
                     type="button"
                     title="Previous"
@@ -207,27 +146,23 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
                     </svg>
                 </button>
 
-                {/* Play / Pause — primary button */}
                 <button
                     type="button"
-                    onClick={() => setIsPlaying(prev => !prev)}
+                    onClick={() => setIsPlaying((current) => !current)}
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-amber-500 text-white shadow-md shadow-amber-500/30 hover:bg-amber-600 hover:shadow-amber-500/40 active:scale-95 transition-all duration-150 flex-shrink-0"
                 >
                     {isPlaying ? (
-                        /* Pause icon */
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                             <rect x="6" y="4" width="4" height="16" rx="1" />
                             <rect x="14" y="4" width="4" height="16" rx="1" />
                         </svg>
                     ) : (
-                        /* Play icon */
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                             <polygon points="5 3 19 12 5 21 5 3" />
                         </svg>
                     )}
                 </button>
 
-                {/* Next */}
                 <button
                     type="button"
                     title="Next"
@@ -239,12 +174,10 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
                     </svg>
                 </button>
 
-                {/* Volume control */}
                 <div ref={volumeControlRef} className="relative flex items-center">
-                    {/* Speaker icon button */}
                     <button
                         type="button"
-                        onClick={() => setIsVolumeOpen(prev => !prev)}
+                        onClick={() => setIsVolumeOpen((current) => !current)}
                         title="Volume"
                         aria-label="Toggle volume controls"
                         aria-expanded={isVolumeOpen}
@@ -328,12 +261,7 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
                                 max={100}
                                 step={1}
                                 value={isMuted ? 0 : Math.round(volume * 100)}
-                                onChange={(e) => {
-                                    const newVol = Number(e.target.value) / 100
-                                    setVolume(newVol)
-                                    if (newVol > 0 && isMuted) setIsMuted(false)
-                                    if (newVol === 0) setIsMuted(true)
-                                }}
+                                onChange={(event) => setVolumeFromPercent(event.target.value)}
                                 className="min-w-0 flex-1 h-1 accent-amber-500 cursor-pointer"
                                 title={`Volume: ${isMuted ? 0 : Math.round(volume * 100)}%`}
                             />
@@ -342,8 +270,7 @@ function MusicPlayer({ isPlaying, setIsPlaying }) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
-
 
 export default MusicPlayer

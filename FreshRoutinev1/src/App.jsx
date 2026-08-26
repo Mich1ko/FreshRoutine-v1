@@ -9,6 +9,7 @@ import DayAgendaCard from './components/DayAgendaCard'
 import AddEventModal from './components/AddEventModal'
 import AnalyticsPanel from './components/AnalyticsPanel'
 import AuthForm from './components/AuthForm'
+import { useMusicPlayer } from './hooks/useMusicPlayer'
 import {
   getDateKey,
   readTodoTasksByDate,
@@ -22,6 +23,7 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(() => new Date())
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [todoTasksByDate, setTodoTasksByDate] = useState(() => readTodoTasksByDate())
+  const musicPlayer = useMusicPlayer()
 
   // 1. Upgrade to useState so we can push new events into it!
   const [allTasks, setAllTasks] = useState(() => {
@@ -117,7 +119,7 @@ function App() {
 
               {/* Pomodoro Focus Panel */}
               <div className="order-3 lg:h-full h-[550px]">
-                <PomodoroPanel />
+                <PomodoroPanel musicPlayer={musicPlayer} />
               </div>
 
             </div>
@@ -126,7 +128,7 @@ function App() {
           <Route path="/focus" element={
             <div className="flex items-center justify-center w-full h-full min-h-[500px] p-2">
               <div className="w-full max-w-lg h-[550px]">
-                <PomodoroPanel />
+                <PomodoroPanel musicPlayer={musicPlayer} />
               </div>
             </div>
           } />
