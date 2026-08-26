@@ -5,6 +5,7 @@ function Card({
   title,
   description,
   accentClassName,
+  borderClassName,
   className = 'relative overflow-hidden',
   children,
   variant = 'dark', // 'dark' (default) or 'light'
@@ -29,11 +30,16 @@ function Card({
     'text-sm space-y-3 flex-1 min-h-0 flex flex-col'
   ].join(' ')
 
+  const defaultBorderClass = isLight
+    ? 'border-slate-200/80 dark:border-slate-700/70'
+    : 'border-slate-800/80'
+
   const cardClassName = [
-    'h-full rounded-2xl border transition-all duration-200 shadow-sm',
+    'ui-card-glow h-full rounded-2xl border shadow-sm',
+    borderClassName ?? defaultBorderClass,
     isLight
-      ? 'border-slate-200/80 shadow-slate-200/60 dark:border-slate-700/70 dark:shadow-slate-950/50'
-      : 'border-slate-800/80',
+      ? 'shadow-slate-200/60 dark:[box-shadow:0_0_0_1px_rgba(165,180,252,0.1),0_10px_28px_-20px_rgba(2,6,23,0.9),0_0_18px_-8px_rgba(99,102,241,0.28)]'
+      : 'dark:[box-shadow:0_0_0_1px_rgba(165,180,252,0.08),0_0_18px_-8px_rgba(99,102,241,0.24)]',
     bg,
     'p-5 backdrop-blur-md',
     className,

@@ -3,9 +3,9 @@ import Card from './Card'
 const hourSlots = Array.from({ length: 16 }, (_, i) => 8 + i)
 
 const pillStyles = {
-    green: 'border-emerald-500 bg-emerald-50 text-emerald-900',
-    blue: 'border-indigo-500 bg-indigo-50 text-indigo-900',
-    yellow: 'border-amber-500 bg-amber-50 text-amber-900',
+    green: 'border-emerald-500 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/55 dark:text-emerald-100',
+    blue: 'border-indigo-500 bg-indigo-50 text-indigo-900 dark:bg-indigo-950/55 dark:text-indigo-100',
+    yellow: 'border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950/45 dark:text-amber-100',
 }
 
 const formatHourLabel = (hour24) => {
@@ -49,9 +49,10 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
             title={formatDateTitle(date)}
             variant="light"
             accentClassName="text-emerald-500"
+            borderClassName="border-emerald-500/60"
             className="flex flex-col min-h-0"
         >
-            <div className="flex-1 overflow-y-auto space-y-1 pr-2">
+            <div className="agenda-scroll flex-1 min-h-0 overflow-y-auto space-y-1 rounded-xl pr-2">
                 {/* Dynamically generate hour blocks. For each hour slot, we filter the normalized 
                     tasks to see if any fall within that specific start hour. */}
                 {hourSlots.map((hour) => {
@@ -60,7 +61,7 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                     return (
                         <div key={hour} className="grid grid-cols-[64px_1fr] items-start py-1">
                             <p className="pt-1 text-sm text-slate-400 font-medium dark:text-slate-500">{formatHourLabel(hour)}</p>
-                            <div className="space-y-1 border-t border-slate-100 pt-1 dark:border-slate-800">
+                            <div className="space-y-1 border-t border-slate-100 pt-1 dark:border-slate-700/80">
                                 {slotTasks.length ? (
                                     /* If there are tasks in this hour slot, render them inside the grid. Conditional rendering with the ternary operator (?) is common in React. */
                                     slotTasks.map((task) => (

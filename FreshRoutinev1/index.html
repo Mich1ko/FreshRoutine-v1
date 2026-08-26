@@ -5,6 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>freshroutinev1</title>
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('freshroute-theme') || 'light'
+          var isDark = theme === 'dark'
+          document.documentElement.classList.toggle('dark', isDark)
+          document.documentElement.dataset.theme = theme
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light'
+        } catch (error) {
+          document.documentElement.style.colorScheme = 'light'
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

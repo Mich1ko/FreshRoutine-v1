@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-slate-50: #F8FAFC;
   --color-slate-100: #F1F5F9;
@@ -30,6 +32,20 @@
   --color-rose-500: #F43F5E;
 }
 
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 body {
   background-color: var(--color-slate-50);
   color: var(--color-slate-700);
@@ -39,4 +55,63 @@ body {
     linear-gradient(to right, var(--color-slate-200) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-slate-200) 1px, transparent 1px);
   background-size: 40px 40px;
+  transition:
+    background-color 450ms ease,
+    color 450ms ease;
+}
+
+.dark body {
+  background-color: #020617;
+  color: #e2e8f0;
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+}
+
+.ui-card-glow {
+  transition:
+    background-color 450ms ease,
+    border-color 450ms ease,
+    color 450ms ease,
+    box-shadow 450ms ease;
+}
+
+html.dark .ui-card-glow {
+  box-shadow:
+    0 0 0 1px rgba(165, 180, 252, 0.1),
+    0 10px 28px -20px rgba(2, 6, 23, 0.9),
+    0 0 18px -8px rgba(99, 102, 241, 0.28);
+}
+
+.agenda-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.55) transparent;
+  background-color: transparent;
+}
+
+html.dark .agenda-scroll {
+  scrollbar-color: rgba(129, 140, 248, 0.4) rgba(2, 6, 23, 0.85);
+  background-color: rgba(2, 6, 23, 0.45);
+}
+
+.agenda-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.agenda-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+html.dark .agenda-scroll::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.7);
+}
+
+.agenda-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+}
+
+html.dark .agenda-scroll::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.55);
 }
