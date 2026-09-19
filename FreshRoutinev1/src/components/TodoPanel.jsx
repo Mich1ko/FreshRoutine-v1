@@ -29,6 +29,7 @@ function TodoPanel({ selectedDate, tasks = [], onTasksChange }) {
   const [closingTaskIds, setClosingTaskIds] = useState([])
   const tasksRef = useRef(tasks)
   const timeoutsRef = useRef([])
+  const taskListRef = useRef(null)
 
   useEffect(() => {
     tasksRef.current = tasks
@@ -98,6 +99,7 @@ function TodoPanel({ selectedDate, tasks = [], onTasksChange }) {
     onTasksChange([nextTask, ...tasks])
     setAddedTaskId(nextTask.id)
     setNewTaskTitle('')
+    taskListRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
     queueTimeout(() => setAddedTaskId(null), 620)
   }
 
@@ -109,7 +111,7 @@ function TodoPanel({ selectedDate, tasks = [], onTasksChange }) {
       description="Track the most important tasks for this selected day."
       variant="light"
       accentClassName="text-indigo-600"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden flex flex-col min-h-0"
     >
       {/* Watermark SVG Graphic */}
       <img
@@ -119,7 +121,7 @@ function TodoPanel({ selectedDate, tasks = [], onTasksChange }) {
       />
 
       <form
-        className="todo-add-gloss relative z-10 flex gap-2 rounded-2xl border border-white/70 bg-white/70 p-1.5 shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-200/50 backdrop-blur-xl transition duration-300 focus-within:border-indigo-300 focus-within:shadow-indigo-500/20 dark:border-white/10 dark:bg-slate-950/55 dark:ring-indigo-400/20 dark:shadow-indigo-950/30"
+        className="todo-add-gloss relative z-10 flex shrink-0 gap-2 rounded-2xl border border-white/70 bg-white/70 p-1.5 shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-200/50 backdrop-blur-xl transition duration-300 focus-within:border-indigo-300 focus-within:shadow-indigo-500/20 dark:border-white/10 dark:bg-slate-950/55 dark:ring-indigo-400/20 dark:shadow-indigo-950/30"
         onSubmit={handleSubmit}
       >
         <input
@@ -137,7 +139,10 @@ function TodoPanel({ selectedDate, tasks = [], onTasksChange }) {
         </button>
       </form>
 
-      <ul className="relative z-10 space-y-2">
+      <ul
+        ref={taskListRef}
+        className="todo-scroll relative z-10 flex-1 min-h-0 space-y-2 overflow-y-auto overflow-x-hidden pr-1.5 py-1"
+      >
         {/* We use `.map()` to render a dynamically sized list of task items.
             React requires a unique `key` prop for each item in a list so it can efficiently
             track which elements have changed, been added, or been removed. */}

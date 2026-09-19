@@ -35,7 +35,7 @@ function Card({
     : 'border-slate-800/80'
 
   const cardClassName = [
-    'ui-card-glow h-full rounded-2xl border shadow-sm',
+    'ui-card-glow h-full rounded-2xl border shadow-sm flex flex-col min-h-0',
     borderClassName ?? defaultBorderClass,
     isLight
       ? 'shadow-slate-200/60 dark:[box-shadow:0_0_0_1px_rgba(165,180,252,0.1),0_10px_28px_-20px_rgba(2,6,23,0.9),0_0_18px_-8px_rgba(99,102,241,0.28)]'
@@ -51,7 +51,7 @@ function Card({
 
   return (
     <section className={cardClassName}>
-      <header className="mb-4 space-y-1">
+      <header className="mb-4 space-y-1 shrink-0">
         {eyebrow ? (
           <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${accent}`}>
             {eyebrow}
