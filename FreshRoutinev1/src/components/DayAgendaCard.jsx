@@ -1,6 +1,6 @@
 import Card from './Card'
 
-const hourSlots = Array.from({ length: 16 }, (_, i) => 8 + i)
+const hourSlots = Array.from({ length: 24 }, (_, i) => i)
 
 const pillStyles = {
     green: 'border-emerald-500 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/55 dark:text-emerald-100',
@@ -31,7 +31,7 @@ const formatTimeRange = (start, end) => {
     return `${formatter.format(start)}-${formatter.format(end)}`
 }
 
-function DayAgendaCard({ date, tasks = [], onAddEvent }) {
+function DayAgendaCard({ date, tasks = [], onAddEvent, onDeleteEvent }) {
     // We normalize the start and end times to ensure they are valid Date objects.
     // Finally, we sort them chronologically so they appear in sequential order throughout the day.
     const normalizedTasks = tasks
@@ -70,11 +70,19 @@ function DayAgendaCard({ date, tasks = [], onAddEvent }) {
                                             className={`flex items-center justify-between rounded-lg border-l-4 px-3 py-2 text-sm font-semibold shadow-sm ${pillStyles[task.color] ?? pillStyles.green
                                                 }`}
                                         >
-                                            <span className="truncate pr-3">{task.title}</span>
-                                            <span className="text-xs font-semibold text-slate-500 dark:text-slate-600">
+                                            <span className="min-w-0 flex-1 truncate pr-3">{task.title}</span>
+                                            <span className="shrink-0 text-xs font-semibold text-slate-500 dark:text-slate-600">
                                                 {formatTimeRange(task.start, task.end)}
                                             </span>
-
+                                            <button
+                                                type="button"
+                                                onClick={() => onDeleteEvent?.(task.id)}
+                                                className="ml-1 grid h-6 w-6 shrink-0 place-items-center rounded text-rose-500 transition hover:bg-rose-100 hover:text-rose-700 dark:text-rose-300 dark:hover:bg-rose-500/20"
+                                                aria-label={`Delete ${task.title}`}
+                                                title="Delete event"
+                                            >
+                                                X
+                                            </button>
                                         </div>
 
                                     ))

@@ -54,13 +54,17 @@ const links = [
   { name: "Sign in", path: "/login", icon: SignInIcon },
 ];
 
-export default function Navbar({ theme, onToggleTheme }) {
+export default function Navbar({ theme, onToggleTheme, profile, onSignOut }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const visibleLinks = profile ? links.filter((link) => link.path !== "/login") : links;
+  const profileInitials = profile?.name
+    ? profile.name.trim().slice(0, 2).toUpperCase()
+    : "FR";
 
   return (
     <nav className="mx-auto mt-2 grid min-h-12 w-[94%] md:w-[92%] max-w-4xl grid-cols-[1fr_auto] items-center rounded-xl bg-slate-900 px-2 md:px-4 py-1.5 text-white shadow-lg shadow-slate-900/10 transition-colors duration-500 dark:bg-slate-950/95 dark:shadow-indigo-950/20 dark:ring-1 dark:ring-indigo-400/15">
       <ul className="flex gap-1 md:gap-3 items-center justify-center flex-wrap">
-        {links.map((link) => {
+        {visibleLinks.map((link) => {
           const Icon = link.icon;
 
           return (
@@ -95,20 +99,32 @@ export default function Navbar({ theme, onToggleTheme }) {
             aria-label="Open account menu"
             aria-expanded={isProfileOpen}
           >
-            FR
+            {profileInitials}
           </button>
 
           {isProfileOpen ? (
             <div className="absolute right-0 top-11 z-50 w-56 rounded-xl border border-slate-200 bg-white p-3 text-left shadow-xl shadow-slate-900/15 dark:border-slate-700 dark:bg-slate-950">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                Account
+                Local Profile
               </p>
               <p className="mt-2 truncate text-sm font-bold text-slate-900 dark:text-slate-50">
-                Fresh Routine User
+                {profile?.name ?? 'Fresh Routine User'}
               </p>
               <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
-                user@freshroutine.app
+                {profile?.email ?? 'Set up a local profile to personalize this workspace.'}
               </p>
+              {profile ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onSignOut()
+                    setIsProfileOpen(false)
+                  }}
+                  className="mt-3 w-full rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  Sign out
+                </button>
+              ) : null}
             </div>
           ) : null}
         </div>

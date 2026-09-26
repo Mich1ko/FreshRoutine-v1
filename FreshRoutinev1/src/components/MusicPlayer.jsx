@@ -8,6 +8,7 @@ function MusicPlayer({ player }) {
         handlePrev,
         isMuted,
         isPlaying,
+        isSeeking,
         isShuffle,
         isVolumeOpen,
         playlistLength,
@@ -100,7 +101,9 @@ function MusicPlayer({ player }) {
                             onMouseDown={() => setIsSeeking(true)}
                             onTouchStart={() => setIsSeeking(true)}
                             onChange={(event) => {
-                                setSeekPosition(Number(event.target.value))
+                                const nextPosition = Number(event.target.value)
+                                setSeekPosition(nextPosition)
+                                if (!isSeeking) seekTo(nextPosition)
                             }}
                             onMouseUp={(event) => {
                                 setIsSeeking(false)

@@ -16,7 +16,11 @@ function isSameDay(a, b) {
   )
 }
 
-function CalendarPanel({ selectedDate, onSelectDate }) {
+function getDateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function CalendarPanel({ selectedDate, onSelectDate, eventDateKeys = [] }) {
   // useMemo with an empty dependency array `[]` ensures `today` is only initialized once 
   // and never recalculated across re-renders, preventing time shifts.
   const today = useMemo(() => new Date(), [])
@@ -26,6 +30,10 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
     () => new Date(today.getFullYear(), today.getMonth(), 1)
   )
 
+  const eventCounts = useMemo(() => eventDateKeys.reduce((counts, dateKey) => ({
+    ...counts,
+    [dateKey]: (counts[dateKey] ?? 0) + 1,
+  }), {}), [eventDateKeys])
 
   const year = viewMonth.getFullYear()
   const month = viewMonth.getMonth()
@@ -65,6 +73,11 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
     setViewMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))
   }
 
+  function selectDate(date) {
+    setViewMonth(new Date(date.getFullYear(), date.getMonth(), 1))
+    onSelectDate(date)
+  }
+
   return (
     <Card
       eyebrow="Calendar"
@@ -82,9 +95,13 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
         >
           Prev
         </button>
-        <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-          {MONTHS[month]} {year}
-        </span>
+        <button
+          type="button"
+          onClick={() => selectDate(new Date())}
+          className="rounded px-2 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+        >
+          Today
+        </button>
         <button
           type="button"
           onClick={goNextMonth}
@@ -107,14 +124,16 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
         {cells.map(({ date, inCurrentMonth }, idx) => {
           const isToday = isSameDay(date, today)
           const isSelected = isSameDay(date, selectedDate)
+          const eventCount = eventCounts[getDateKey(date)] ?? 0
 
           return (
             // We generate a highly unique string `key` prop using string interpolation 
             // so React can identify grid re-shuffling effectively.
             <button
-              key={`${date.toISOString()}-${idx}`}
+              key={`${date.getTime()}-${idx}`}
               type="button"
-              onClick={() => onSelectDate(date)}
+              onClick={() => selectDate(date)}
+              aria-label={`${date.toLocaleDateString()}${eventCount ? `, ${eventCount} event${eventCount === 1 ? '' : 's'}` : ''}`}
               className={[
                 'rounded-lg py-1.5 text-center text-xs transition-all duration-150',
                 inCurrentMonth ? 'text-slate-800 dark:text-slate-100' : 'text-slate-300 dark:text-slate-600',
@@ -122,7 +141,10 @@ function CalendarPanel({ selectedDate, onSelectDate }) {
                 isSelected ? 'bg-emerald-500 font-bold text-white shadow-md shadow-emerald-500/20' : 'hover:bg-slate-100 dark:hover:bg-slate-800',
               ].join(' ')}
             >
-              {date.getDate()}
+              <span className="relative inline-flex min-h-4 min-w-4 items-center justify-center">
+                {date.getDate()}
+                {eventCount ? <span className="absolute -bottom-1 h-1 w-1 rounded-full bg-current" aria-hidden="true" /> : null}
+              </span>
             </button>
           )
         })}
